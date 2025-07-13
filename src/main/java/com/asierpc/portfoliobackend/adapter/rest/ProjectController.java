@@ -1,6 +1,6 @@
 package com.asierpc.portfoliobackend.adapter.rest;
 
-import com.asierpc.portfoliobackend.adapter.mapper.ProjectMapper;
+import com.asierpc.portfoliobackend.adapter.mapper.ProjectApiMapperUtil;
 import com.asierpc.portfoliobackend.api.ProjectApi;
 import com.asierpc.portfoliobackend.api.model.Project;
 import com.asierpc.portfoliobackend.api.model.ProjectPage;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectController implements ProjectApi {
   private final ProjectServicePort projectService;
-  private final ProjectMapper projectMapper;
 
   @Override
   public ResponseEntity<ProjectPage> getProjects(
@@ -29,7 +28,7 @@ public class ProjectController implements ProjectApi {
   ) {
     Page<ProjectDto> projects = projectService.getProjects(name, PageRequest.of(page, size));
     List<Project> projectList = projects.getContent().stream()
-        .map(projectMapper::toApiModel)
+        .map(ProjectApiMapperUtil::toApiModel)
         .toList();
     ProjectPage projectPage = new ProjectPage();
     projectPage.setContent(projectList);
@@ -43,22 +42,22 @@ public class ProjectController implements ProjectApi {
   @Override
   public ResponseEntity<Project> getProject(Integer id) {
     ProjectDto dto = projectService.getProject(id.longValue());
-    Project apiModel = projectMapper.toApiModel(dto);
+    Project apiModel = ProjectApiMapperUtil.toApiModel(dto);
     return ResponseEntity.ok(apiModel);
   }
 
   @Override
   public ResponseEntity<Project> createProject(Project project) {
-    ProjectDto dto = projectMapper.fromApiModel(project);
+    ProjectDto dto = ProjectApiMapperUtil.fromApiModel(project);
     ProjectDto created = projectService.createProject(dto);
-    return new ResponseEntity<>(projectMapper.toApiModel(created), HttpStatus.CREATED);
+    return new ResponseEntity<>(ProjectApiMapperUtil.toApiModel(created), HttpStatus.CREATED);
   }
 
   @Override
   public ResponseEntity<Project> updateProject(Integer id, Project project) {
-    ProjectDto dto = projectMapper.fromApiModel(project);
+    ProjectDto dto = ProjectApiMapperUtil.fromApiModel(project);
     ProjectDto updated = projectService.updateProject(id.longValue(), dto);
-    return ResponseEntity.ok(projectMapper.toApiModel(updated));
+    return ResponseEntity.ok(ProjectApiMapperUtil.toApiModel(updated));
   }
 
   @Override

@@ -28,8 +28,8 @@ public class JwtUtil {
 
 
   /**
-   * Initializes the secret key for JWT signing after dependency injection.
-   */
+  * Initializes the secret key for JWT signing after dependency injection.
+  */
   @PostConstruct
   private void initKey() {
     this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -43,10 +43,10 @@ public class JwtUtil {
    */
   public String generateToken(String username) {
     return Jwts.builder()
-        .subject(username)
-        .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
-        .signWith(key)
-        .compact();
+      .subject(username)
+      .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS))
+      .signWith(key)
+      .compact();
   }
 
   public boolean validateToken(String token, String username) {

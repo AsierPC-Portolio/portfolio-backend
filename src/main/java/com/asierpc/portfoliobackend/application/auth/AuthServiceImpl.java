@@ -66,11 +66,11 @@ public class AuthServiceImpl implements AuthServicePort {
     }
     User user =
         User.builder()
-            .email(email)
-            .password(passwordEncoderService.encode(command.getPassword()))
-            .firstName(command.getFirstName())
-            .lastName(command.getLastName())
-            .build();
+          .email(email)
+          .password(passwordEncoderService.encode(command.getPassword()))
+          .firstName(command.getFirstName())
+          .lastName(command.getLastName())
+        .build();
     userRepository.save(user);
     return jwtUtil.generateToken(user.getEmail());
   }

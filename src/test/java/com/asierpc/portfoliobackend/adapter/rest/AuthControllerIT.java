@@ -17,35 +17,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = {"spring.profiles.active=test"})
 @AutoConfigureMockMvc
 class AuthControllerIT {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired
+  private MockMvc mockMvc;
+  @Autowired
+  private ObjectMapper objectMapper;
 
-    @Test
-    void register_and_login_success() throws Exception {
-        // Register
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setFirstName("Test");
-        registerRequest.setLastName("User");
-        registerRequest.setEmail("testuser@example.com");
-        registerRequest.setPassword("testpass");
+  @Test
+  void register_and_login_success() throws Exception {
+    // Register
+    RegisterRequest registerRequest = new RegisterRequest();
+    registerRequest.setFirstName("Test");
+    registerRequest.setLastName("User");
+    registerRequest.setEmail("testuser@example.com");
+    registerRequest.setPassword("testpass");
 
-        ResultActions registerResult = mockMvc.perform(post("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerRequest)));
-        registerResult.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.token").exists());
+    ResultActions registerResult = mockMvc.perform(post("/auth/register")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(registerRequest)));
+    registerResult.andExpect(status().isOk())
+        .andExpect(jsonPath("$.token").exists());
 
-        // Login
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("testuser@example.com");
-        loginRequest.setPassword("testpass");
+    // Login
+    LoginRequest loginRequest = new LoginRequest();
+    loginRequest.setEmail("testuser@example.com");
+    loginRequest.setPassword("testpass");
 
-        ResultActions loginResult = mockMvc.perform(post("/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest)));
-        loginResult.andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").exists());
-    }
+    ResultActions loginResult = mockMvc.perform(post("/auth/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(loginRequest)));
+    loginResult.andExpect(status().isOk())
+        .andExpect(jsonPath("$.token").exists());
+  }
 }

@@ -2,6 +2,8 @@
 package com.asierpc.portfoliobackend.infrastructure.repository;
 
 import com.asierpc.portfoliobackend.domain.project.Project;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,6 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    org.springframework.data.domain.Page<Project> findByNameContainingIgnoreCase(String name, org.springframework.data.domain.Pageable pageable);
+  Page<Project> findByNameContainingIgnoreCase(
+      String name,
+      Pageable pageable
+  );
 
 }

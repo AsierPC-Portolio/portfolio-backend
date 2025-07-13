@@ -11,7 +11,6 @@
     <description>Personal portfolio backend following Hexagonal Architecture (Ports and Adapters)</description>
     <properties>
         <java.version>17</java.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <lombok.version>1.18.32</lombok.version>
         <jacoco.version>0.8.11</jacoco.version>
@@ -103,18 +102,6 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Swagger/OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -179,29 +166,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <!-- MapStruct Annotation Processor -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                    <generatedSourcesDirectory>target/generated-sources/annotations</generatedSourcesDirectory>
                 </configuration>
             </plugin>
             <!-- JaCoCo for test coverage -->            

@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Spring Security configuration for JWT-based authentication and authorization.
@@ -20,7 +19,10 @@ public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-  public SecurityConfig(@Value("${cors.allowed-origins}") String[] allowedOrigins, JwtAuthenticationFilter jwtAuthenticationFilter) {
+  public SecurityConfig(
+      @Value("${cors.allowed-origins}") String[] allowedOrigins,
+      JwtAuthenticationFilter jwtAuthenticationFilter
+  ) {
     this.allowedOrigins = allowedOrigins;
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
@@ -29,6 +31,7 @@ public class SecurityConfig {
   private String[] allowedOrigins;
 
 
+  
   /**
    * Configures the security filter chain for HTTP requests.
    *
@@ -42,14 +45,24 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/login", "/auth/register").permitAll()
-            .requestMatchers("api-docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+            .requestMatchers(
+                "api-docs/**", "/swagger-ui/**", "/v3/api-docs/**"
+            ).permitAll()
             .anyRequest().authenticated()
         )
         .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(
+        jwtAuthenticationFilter,
+        UsernamePasswordAuthenticationFilter.class
+    );
     return http.build();
   }
 
+  /**
+   * Configures CORS settings for the application.
+   *
+   * @return the configured CorsConfigurationSource
+   */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();

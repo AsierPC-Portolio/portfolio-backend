@@ -1,6 +1,6 @@
 package com.asierpc.portfoliobackend.application.project;
 
-import com.asierpc.portfoliobackend.adapter.mapper.ProjectMapper;
+import com.asierpc.portfoliobackend.adapter.mapper.ProjectMapperUtil;
 import com.asierpc.portfoliobackend.domain.project.Project;
 import com.asierpc.portfoliobackend.domain.project.dto.ProjectDto;
 import com.asierpc.portfoliobackend.domain.project.port.ProjectServicePort;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectServicePort {
   private final ProjectRepository projectRepository;
-  private final ProjectMapper projectMapper;
 
   @Override
   public Page<ProjectDto> getProjects(String name, Pageable pageable) {
@@ -28,35 +27,35 @@ public class ProjectServiceImpl implements ProjectServicePort {
       page = projectRepository.findAll(pageable);
     } else {
       page = projectRepository.findByNameContainingIgnoreCase(
-        name,
-        pageable
+      name,
+      pageable
       );
     }
-    return page.map(projectMapper::toDto);
+    return page.map(ProjectMapperUtil::toDto);
   }
 
   @Override
   public ProjectDto getProject(Long id) {
     Project project = projectRepository.findById(id)
         .orElseThrow(() -> new NoSuchElementException("Project not found"));
-    return projectMapper.toDto(project);
+    return ProjectMapperUtil.toDto(project);
   }
 
   @Override
   public ProjectDto createProject(ProjectDto dto) {
-    Project project = projectMapper.toEntity(dto);
+    Project project = ProjectMapperUtil.fromDto(dto);
     Project saved = projectRepository.save(project);
-    return projectMapper.toDto(saved);
+    return ProjectMapperUtil.toDto(saved);
   }
 
   @Override
   public ProjectDto updateProject(Long id, ProjectDto dto) {
     projectRepository.findById(id)
         .orElseThrow(() -> new NoSuchElementException("Project not found"));
-    Project project = projectMapper.toEntity(dto);
+    Project project = ProjectMapperUtil.fromDto(dto);
     project.setId(id); // Ensure the ID is set for the update
     Project saved = projectRepository.save(project);
-    return projectMapper.toDto(saved);
+    return ProjectMapperUtil.toDto(saved);
   }
 
   @Override

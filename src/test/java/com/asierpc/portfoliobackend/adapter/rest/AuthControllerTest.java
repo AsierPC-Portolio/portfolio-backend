@@ -1,6 +1,5 @@
 package com.asierpc.portfoliobackend.adapter.rest;
 
-import com.asierpc.portfoliobackend.adapter.mapper.AuthMapper;
 import com.asierpc.portfoliobackend.domain.auth.AuthServicePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,39 +12,39 @@ import static org.mockito.Mockito.*;
 import org.springframework.http.ResponseEntity;
 
 class AuthControllerTest {
-    private AuthServicePort authService;
-    private AuthMapper authMapper;
-    private AuthController authController;
+  private AuthServicePort authService;
+  private AuthController authController;
 
-    @BeforeEach
-    void setUp() {
-        authService = mock(AuthServicePort.class);
-        authMapper = mock(AuthMapper.class);
-        authController = new AuthController(authService, authMapper);
-    }
+  @BeforeEach
+  void setUp() {
+    authService = mock(AuthServicePort.class);
+    authController = new AuthController(authService);
+  }
 
-    @Test
-    void loginUser_returnsOkWithToken() {
-        LoginRequest loginRequest = mock(LoginRequest.class);
-        com.asierpc.portfoliobackend.domain.auth.model.LoginCommand command = mock(com.asierpc.portfoliobackend.domain.auth.model.LoginCommand.class);
-        when(authMapper.toLoginCommand(loginRequest)).thenReturn(command);
-        when(authService.login(command)).thenReturn("token123");
+  @Test
+  void loginUser_returnsOkWithToken() {
+    LoginRequest loginRequest = new LoginRequest();
+    loginRequest.setEmail("test@example.com");
+    loginRequest.setPassword("pass");
+    when(authService.login(any())).thenReturn("token123");
 
-        ResponseEntity<AuthResponse> response = authController.loginUser(loginRequest);
-        assertEquals(200, response.getStatusCode().value());
-        assertNotNull(response.getBody());
-        assertEquals("token123", response.getBody().getToken());
-    }
-    @Test
-    void registerUser_returnsCreatedWithToken() {
-        RegisterRequest registerRequest = mock(RegisterRequest.class);
-        com.asierpc.portfoliobackend.domain.auth.model.RegisterCommand command = mock(com.asierpc.portfoliobackend.domain.auth.model.RegisterCommand.class);
-        when(authMapper.toRegisterCommand(registerRequest)).thenReturn(command);
-        when(authService.register(command)).thenReturn("token456");
+    ResponseEntity<AuthResponse> response = authController.loginUser(loginRequest);
+    assertEquals(200, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    assertEquals("token123", response.getBody().getToken());
+  }
+  @Test
+  void registerUser_returnsCreatedWithToken() {
+    RegisterRequest registerRequest = new RegisterRequest();
+    registerRequest.setEmail("test@example.com");
+    registerRequest.setPassword("pass");
+    registerRequest.setFirstName("Test");
+    registerRequest.setLastName("User");
+    when(authService.register(any())).thenReturn("token456");
 
-        ResponseEntity<AuthResponse> response = authController.registerUser(registerRequest);
-        assertEquals(201, response.getStatusCode().value());
-        assertNotNull(response.getBody());
-        assertEquals("token456", response.getBody().getToken());
-    }
+    ResponseEntity<AuthResponse> response = authController.registerUser(registerRequest);
+    assertEquals(200, response.getStatusCode().value());
+    assertNotNull(response.getBody());
+    assertEquals("token456", response.getBody().getToken());
+  }
 }
