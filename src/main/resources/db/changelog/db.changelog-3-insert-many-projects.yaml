@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3-insert-many-projects
+      author: github-copilot
+      changes:
+        - sqlFile:
+            path: db/migration/V3__insert_many_projects.sql
+            relativeToChangelogFile: false

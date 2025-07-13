@@ -37,8 +37,6 @@ public class Project {
 
   private String link;
 
-  @Column
-
   private LocalDate startDate;
   private LocalDate endDate;
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,15 @@ public class ProjectController implements ProjectApi {
   public ResponseEntity<ProjectPage> getProjects(
       String name, Integer page, Integer size, String sort
   ) {
-    Page<ProjectDto> projects = projectService.getProjects(name, PageRequest.of(page, size));
+    Sort sortObj = Sort.unsorted();
+    if (sort != null && !sort.isBlank()) {
+      if (sort.startsWith("-")) {
+        sortObj = Sort.by(sort.substring(1)).descending();
+      } else {
+        sortObj = Sort.by(sort).ascending();
+      }
+    }
+    Page<ProjectDto> projects = projectService.getProjects(name, PageRequest.of(page, size, sortObj));
     List<Project> projectList = projects.getContent().stream()
         .map(ProjectApiMapperUtil::toApiModel)
         .toList();
