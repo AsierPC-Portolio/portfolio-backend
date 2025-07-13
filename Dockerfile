@@ -4,7 +4,6 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 COPY docs ./docs
-COPY application.yml ./src/main/resources/application.yml
 RUN mvn clean package -DskipTests
 
 # ---- Run Stage ----
