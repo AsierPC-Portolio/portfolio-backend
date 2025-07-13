@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 COPY docs ./docs
-RUN mvn clean package -DskipTests
+RUN mvn clean generate-sources && mvn package -DskipTests
 
 # ---- Run Stage ----
 FROM eclipse-temurin:17-jdk-alpine
