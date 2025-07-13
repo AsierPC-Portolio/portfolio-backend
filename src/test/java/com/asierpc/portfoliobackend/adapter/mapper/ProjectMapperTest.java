@@ -11,31 +11,6 @@ class ProjectMapperTest {
 
     private final ProjectMapper mapper = Mappers.getMapper(ProjectMapper.class);
 
-
-    @Test
-    void testCsvToArray() {
-        String csv = "java,spring,backend";
-        String[] result = ProjectMapper.csvToArray(csv);
-        assertArrayEquals(new String[]{"java", "spring", "backend"}, result);
-    }
-
-    @Test
-    void testCsvToArray_NullInput() {
-        assertNull(ProjectMapper.csvToArray(null));
-    }
-
-    @Test
-    void testArrayToCsv() {
-        String[] tags = {"java", "spring", "backend"};
-        String result = ProjectMapper.arrayToCsv(tags);
-        assertEquals("java,spring,backend", result);
-    }
-
-    @Test
-    void testArrayToCsv_NullInput() {
-        assertNull(ProjectMapper.arrayToCsv(null));
-    }
-
     @Test
     void testStringToUri() {
         String url = "https://example.com";

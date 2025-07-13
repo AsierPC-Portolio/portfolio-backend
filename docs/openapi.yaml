@@ -43,11 +43,6 @@ components:
           type: string
           format: uri
           example: https://miportfolio.com
-        tags:
-          type: array
-          items:
-            type: string
-          example: ["Angular", "Spring Boot", "Fullstack"]
         startDate:
           type: string
           format: date
@@ -134,11 +129,6 @@ paths:
           schema:
             type: string
           description: Filter by project name
-        - in: query
-          name: tag
-          schema:
-            type: string
-          description: Filter by tag
         - in: query
           name: page
           schema:

@@ -10,12 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -39,13 +36,10 @@ class ProjectServiceImplTest {
     void getProjects_returnsPageOfDtos() {
         Project project = Project.builder().id(1L).name("Test").build();
         ProjectDto dto = ProjectDto.builder().id(1L).name("Test").build();
-        List<Project> projects = Arrays.asList(project);
-        Page<Project> projectPage = new PageImpl<>(projects);
         Pageable pageable = PageRequest.of(0, 10);
-        when(projectRepository.findByNameAndTag(null, null, pageable)).thenReturn(projectPage);
         when(projectMapper.toDto(project)).thenReturn(dto);
 
-        Page<ProjectDto> result = projectService.getProjects(null, null, pageable);
+        Page<ProjectDto> result = projectService.getProjects(null, pageable);
         assertEquals(1, result.getTotalElements());
         assertEquals("Test", result.getContent().get(0).getName());
     }

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
  * Domain port for Project CRUD operations.
  */
 public interface ProjectServicePort {
-  Page<ProjectDto> getProjects(String name, String tag, Pageable pageable);
+  Page<ProjectDto> getProjects(String name, Pageable pageable);
 
   ProjectDto getProject(Long id);
 

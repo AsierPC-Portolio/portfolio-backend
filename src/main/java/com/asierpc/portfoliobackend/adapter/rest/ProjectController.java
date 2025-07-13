@@ -25,9 +25,9 @@ public class ProjectController implements ProjectApi {
 
   @Override
   public ResponseEntity<ProjectPage> getProjects(
-      String name, String tag, Integer page, Integer size, String sort
+      String name, Integer page, Integer size, String sort
   ) {
-    Page<ProjectDto> projects = projectService.getProjects(name, tag, PageRequest.of(page, size));
+    Page<ProjectDto> projects = projectService.getProjects(name, PageRequest.of(page, size));
     List<Project> projectList = projects.getContent().stream()
         .map(projectMapper::toApiModel)
         .toList();

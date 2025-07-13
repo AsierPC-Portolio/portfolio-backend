@@ -21,16 +21,14 @@ public class ProjectServiceImpl implements ProjectServicePort {
   private final ProjectMapper projectMapper;
 
   @Override
-  public Page<ProjectDto> getProjects(String name, String tag, Pageable pageable) {
+  public Page<ProjectDto> getProjects(String name, Pageable pageable) {
     boolean noName = (name == null || name.isBlank());
-    boolean noTag = (tag == null || tag.isBlank());
     Page<Project> page;
-    if (noName && noTag) {
+    if (noName) {
       page = projectRepository.findAll(pageable);
     } else {
-      page = projectRepository.findByNameContainingIgnoreCaseAndTagsContainingIgnoreCase(
-        noName ? "" : name,
-        noTag ? "" : tag,
+      page = projectRepository.findByNameContainingIgnoreCase(
+        name,
         pageable
       );
     }

@@ -12,7 +12,6 @@ CREATE TABLE projects (
     description VARCHAR(1000),
     country_code VARCHAR(10),
     link VARCHAR(255),
-    tags VARCHAR(255),
     start_date DATE,
     end_date DATE
 );

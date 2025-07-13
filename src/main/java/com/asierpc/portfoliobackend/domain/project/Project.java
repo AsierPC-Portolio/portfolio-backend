@@ -38,7 +38,6 @@ public class Project {
   private String link;
 
   @Column
-  private String tags; // CSV, e.g. "Java,Spring Boot,Angular"
 
   private LocalDate startDate;
   private LocalDate endDate;

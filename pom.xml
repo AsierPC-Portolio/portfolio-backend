@@ -10,7 +10,7 @@
     <name>portfolio-backend</name>
     <description>Personal portfolio backend following Hexagonal Architecture (Ports and Adapters)</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <lombok.version>1.18.32</lombok.version>

@@ -41,10 +41,10 @@ class ProjectControllerTest {
         Project apiModel = new Project().id(1L).name("Test");
         List<ProjectDto> dtoList = Arrays.asList(dto);
         Page<ProjectDto> page = new PageImpl<>(dtoList);
-        when(projectService.getProjects(null, null, PageRequest.of(0, 10))).thenReturn(page);
+        when(projectService.getProjects(null, PageRequest.of(0, 10))).thenReturn(page);
         when(projectMapper.toApiModel(dto)).thenReturn(apiModel);
 
-        ResponseEntity<ProjectPage> response = projectController.getProjects(null, null, 0, 10, "id,asc");
+        ResponseEntity<ProjectPage> response = projectController.getProjects(null, 0, 10, "id,asc");
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getContent().size());

@@ -31,7 +31,6 @@ class ProjectControllerIT {
                 .description("Integration test")
                 .countryCode("ES")
                 .link(java.net.URI.create("https://it.com"))
-                .tags(java.util.Arrays.asList("Spring", "Test"))
                 .startDate(java.time.LocalDate.of(2025, 7, 13))
                 .endDate(java.time.LocalDate.of(2025, 12, 31));
 
@@ -49,7 +48,6 @@ class ProjectControllerIT {
 
         mockMvc.perform(get("/projects/" + created.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("IT Project"))
-                .andExpect(jsonPath("$.tags[0]").value("Spring"));
+                .andExpect(jsonPath("$.name").value("IT Project"));
     }
 }

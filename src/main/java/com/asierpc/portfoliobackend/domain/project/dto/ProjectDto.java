@@ -19,7 +19,6 @@ public class ProjectDto {
   private String description;
   private String countryCode;
   private String link;
-  private String[] tags;
   private LocalDate startDate;
   private LocalDate endDate;
 }
