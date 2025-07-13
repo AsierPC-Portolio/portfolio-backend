@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secret key for JWT signature. Must be at least 32 characters for HS256.",
+      "sourceType": "com.asierpc.portfoliobackend.infrastructure.security.JwtUtil"
+    }
+  ]
+}

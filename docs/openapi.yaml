@@ -1,0 +1,317 @@
+openapi: 3.1.0
+info:
+  title: Portfolio Backend API
+  description: API definition for the personal portfolio backend.
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://api.portfolio.com
+    description: Production server
+#  - url: http://localhost:8080
+#    description: Local development server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Project:
+      type: object
+      required:
+        - name
+        - countryCode
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          example: Portfolio Web
+        description:
+          type: string
+          example: "Mi portfolio personal con Angular y Spring Boot."
+        countryCode:
+          type: string
+          minLength: 2
+          maxLength: 2
+          example: ES
+        link:
+          type: string
+          format: uri
+          example: https://miportfolio.com
+        tags:
+          type: array
+          items:
+            type: string
+          example: ["Angular", "Spring Boot", "Fullstack"]
+        startDate:
+          type: string
+          format: date
+          example: 2023-01-01
+        endDate:
+          type: string
+          format: date
+          example: 2023-03-01
+    ProjectPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+        pageable:
+          type: object
+          properties:
+            pageNumber:
+              type: integer
+            pageSize:
+              type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+    RegisterRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@email.com
+        password:
+          type: string
+          format: password
+          example: mySecret123
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.doe@email.com
+        password:
+          type: string
+          format: password
+          example: mySecret123
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: OK
+paths:
+  /projects:
+    get:
+      summary: List projects (paginated, filterable, sortable)
+      operationId: getProjects
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Filter by project name
+        - in: query
+          name: tag
+          schema:
+            type: string
+          description: Filter by tag
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          description: Page size
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: id,asc
+          description: Sort (e.g. name,asc)
+      responses:
+        '200':
+          description: Paginated list of projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPage'
+      tags:
+        - Project
+    post:
+      summary: Create a new project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+      tags:
+        - Project
+  /projects/{id}:
+    get:
+      summary: Get project by ID
+      operationId: getProject
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Project found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Project not found
+        '400':
+          description: Invalid request
+      tags:
+        - Project
+    put:
+      summary: Update project by ID
+      operationId: updateProject
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Project updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: Project not found
+      tags:
+        - Project
+    delete:
+      summary: Delete project by ID
+      operationId: deleteProject
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Project deleted
+        '404':
+          description: Project not found
+      tags:
+        - Project
+  /auth/register:
+    post:
+      summary: Register a new user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid input
+      tags:
+        - Authentication
+  /auth/login:
+    post:
+      summary: Login and get JWT token
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+      tags:
+        - Authentication
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: healthCheck
+      description: Returns the health status of the API.
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+      tags:
+        - System
+security:
+  - bearerAuth: []

@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1"
+      author: asierpc
+      changes:
+        - sqlFile:
+            path: db/migration/V1__init.sql
+            relativeToChangelogFile: false
+            endDelimiter: ;
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: "2"
+      author: asierpc
+      changes:
+        - sqlFile:
+            path: db/migration/V2__add_projects.sql
+            relativeToChangelogFile: false
+            endDelimiter: ;
+            splitStatements: true
+            stripComments: true
