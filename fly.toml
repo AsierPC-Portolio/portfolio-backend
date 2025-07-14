@@ -1,0 +1,42 @@
+# fly.toml file for portfolio-backend (Spring Boot + PostgreSQL)
+app = "portfolio-backend"
+
+primary_region = "mad" # Change to your preferred region
+
+[build]
+  image = "docker.io/library/openjdk:17-jdk-slim"
+
+[env]
+  SPRING_PROFILES_ACTIVE = "prod"
+  SPRING_DATASOURCE_URL = "jdbc:postgresql://dpg-d1pu7pruibrs73e5fu6g-a.frankfurt-postgres.render.com:5432/portfolio_ct1y"
+  SPRING_DATASOURCE_USERNAME = "portfolio_user"
+  SPRING_DATASOURCE_PASSWORD = "W7ow19i1rMcXtKKPCQhlJf4VS7lUI7dg"
+  SPRING_JPA_HIBERNATE_DDL_AUTO = "none"
+  CORS_ALLOWED_ORIGINS = "https://portfolio-angular-zqxp.onrender.com/"
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [[services.tcp_checks]]
+    interval = 10000
+    timeout = 2000
+    grace_period = "10s"
+    restart_limit = 0
+    port = 8080
+
+# Optional: persistent volume for file uploads, etc.
+# [[mounts]]
+#   source = "data"
+#   destination = "/data"
