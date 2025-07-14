@@ -4,7 +4,7 @@ Personal portfolio backend following Hexagonal Architecture (Ports & Adapters).
 
 ## Technologies and Tools
 
-- **Java 21**
+- **Java 17**
 - **Spring Boot** (latest stable version)
 - **Hexagonal Architecture** (Ports & Adapters)
 - **Maven** (dependency management)
