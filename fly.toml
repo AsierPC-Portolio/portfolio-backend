@@ -1,4 +1,5 @@
-# fly.toml file for portfolio-backend (Spring Boot + PostgreSQL)
+
+# fly.toml for portfolio-backend (Spring Boot + PostgreSQL)
 app = "portfolio-backend"
 
 primary_region = "cdg"
@@ -9,9 +10,7 @@ primary_region = "cdg"
   SPRING_DATASOURCE_USERNAME = "portfolio_user"
   SPRING_JPA_HIBERNATE_DDL_AUTO = "none"
   CORS_ALLOWED_ORIGINS = "https://portfolio-angular-zqxp.onrender.com/"
-
-[experimental]
-  auto_rollback = true
+  SPRING_APPLICATION_JSON = '{"server":{"address":"0.0.0.0"}}'
 
 [[services]]
   internal_port = 8080
