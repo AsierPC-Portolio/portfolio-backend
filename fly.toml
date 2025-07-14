@@ -10,7 +10,6 @@ primary_region = "cdg"
   SPRING_PROFILES_ACTIVE = "prod"
   SPRING_DATASOURCE_URL = "jdbc:postgresql://dpg-d1pu7pruibrs73e5fu6g-a.frankfurt-postgres.render.com:5432/portfolio_ct1y"
   SPRING_DATASOURCE_USERNAME = "portfolio_user"
-  SPRING_DATASOURCE_PASSWORD = "W7ow19i1rMcXtKKPCQhlJf4VS7lUI7dg"
   SPRING_JPA_HIBERNATE_DDL_AUTO = "none"
   CORS_ALLOWED_ORIGINS = "https://portfolio-angular-zqxp.onrender.com/"
 
