@@ -3,9 +3,6 @@ app = "portfolio-backend"
 
 primary_region = "cdg"
 
-[build]
-  image = "docker.io/library/openjdk:17-jdk-slim"
-
 [env]
   SPRING_PROFILES_ACTIVE = "prod"
   SPRING_DATASOURCE_URL = "jdbc:postgresql://dpg-d1pu7pruibrs73e5fu6g-a.frankfurt-postgres.render.com:5432/portfolio_ct1y"
