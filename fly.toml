@@ -1,7 +1,7 @@
 # fly.toml file for portfolio-backend (Spring Boot + PostgreSQL)
 app = "portfolio-backend"
 
-primary_region = "mad" # Change to your preferred region
+primary_region = "cdg"
 
 [build]
   image = "docker.io/library/openjdk:17-jdk-slim"
