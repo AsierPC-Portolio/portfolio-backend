@@ -12,6 +12,8 @@ primary_region = "cdg"
   CORS_ALLOWED_ORIGINS = "https://portfolio-angular-zqxp.onrender.com/"
   SPRING_APPLICATION_JSON = '{"server":{"address":"0.0.0.0"}}'
 
+  JAVA_TOOL_OPTIONS = "-Xmx256m"
+
 [[services]]
   internal_port = 8080
   protocol = "tcp"
